@@ -39,6 +39,7 @@ def prepare_folders(folder_name, program_name, test_name):
     return path
 
 def run_tests(folder_name, test_name, app_name, run_index):
+    folder_name = os.path.join(ROOT_DIR, folder_name)
     result_path = prepare_folders(folder_name, app_name, test_name)
     program_path = os.path.join(ROOT_DIR, 'apps', app_name, test_name)
     if "git" in app_name:
@@ -159,6 +160,7 @@ def run_baseline_test(cmd, prep_cmds, env, app_name, run_index, result_path, cle
     sh.check_call([cleanup_cmd], env=env)
      
 def main():
+    folder_name = sys.argv[1]
     app_name = sys.argv[2]
     test_name = sys.argv[3]
     trial_number = int(sys.argv[4]) if len(sys.argv) > 4 else 0
@@ -167,7 +169,7 @@ def main():
 if __name__ == '__main__':
     if len(sys.argv) == 0:
         os.abort()
-    if len(sys.argv) < 3 or len(sys.argv) > 4:
+    if len(sys.argv) < 4 or len(sys.argv) > 5:
         usage(sys.argv[0])
         sys.exit(1)
     
