@@ -1,3 +1,3 @@
 #!/bin/bash
-
-mogrify  -format gif -path thumbs -thumbnail 100x100 *.jpg
+DATAFILE=originals
+mogrify  -format gif -path images/bash/thumbs -thumbnail 100x100 images/bash/${DATAFILE}/*.jpg

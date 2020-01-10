@@ -1,1 +1,0 @@
-# install image magick

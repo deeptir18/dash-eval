@@ -1,1 +1,1 @@
-mogrify  -format gif -path thumbs -thumbnail 100x100 originals/*.jpg
+mogrify  -format gif -path images/dash/thumbs -thumbnail 100x100 images/dash/originals/*.jpg
