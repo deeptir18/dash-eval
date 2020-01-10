@@ -25,11 +25,11 @@ def pushd(new_dir):
     os.chdir(prev_dir)
 
 def usage(argv0):
-    print("{} <app-name> <test-name> [repeat-count=10] [config.sh]".format(argv0))
+    print("{} <folder_name> <app-name> <test-name> [repeat-count=10] [config.sh]".format(argv0))
 
 
-def prepare_folders(program_name, test_name):
-    path = os.path.join(RESULTS_DIR, program_name, test_name)
+def prepare_folders(folder_name, program_name, test_name):
+    path = os.path.join(folder_name, program_name, test_name)
     
     if os.path.exists(path):
     #    raise Exception("Experiment folder already exists, remove manually.")
@@ -38,8 +38,8 @@ def prepare_folders(program_name, test_name):
         os.makedirs(path, exist_ok = False)
     return path
 
-def run_tests(test_name, app_name, run_index):
-    result_path = prepare_folders(app_name, test_name)
+def run_tests(folder_name, test_name, app_name, run_index):
+    result_path = prepare_folders(folder_name, app_name, test_name)
     program_path = os.path.join(ROOT_DIR, 'apps', app_name, test_name)
     if "git" in app_name:
         run_git_test(test_name, app_name, str(run_index))
@@ -57,7 +57,8 @@ def run_tests(test_name, app_name, run_index):
     
     unmount_cmd = ["./unmount.sh"]
     mount_cmd = ["./mount.sh"]
-    sh.run(unmount_cmd)
+    if os.path.ismount(os.environ["CLIENT_MOUNT"]):
+        sh.run(unmount_cmd)
     sh.check_call(mount_cmd)
     with pushd(program_path):
         env = DEFAULT_ENV.copy()
@@ -81,9 +82,9 @@ def run_tests(test_name, app_name, run_index):
 """
 Specifically for git, the setup for the tests is a little different, so have a separate function for this
 """
-def run_git_test(test_name, app_name, run_index):
+def run_git_test(folder_name, test_name, app_name, run_index):
     debug("Running special test for git")
-    result_path = prepare_folders(app_name, test_name)
+    result_path = prepare_folders(folder_name, app_name, test_name)
     program_path = os.path.join(ROOT_DIR, 'apps', app_name, test_name)
     prep_cmds = ['./prep.sh']
     run_cmds = ['./run.sh', result_path, run_index]
@@ -96,8 +97,9 @@ def run_git_test(test_name, app_name, run_index):
     # mount and unmount
     unmount_cmd = ["./unmount.sh"]
     mount_cmd = ["./mount.sh"]
-    #sh.run(unmount_cmd)
-    #sh.check_call(mount_cmd)
+    if os.path.ismount(os.environ["CLIENT_MOUNT"]):
+        sh.run(unmount_cmd)
+    sh.check_call(mount_cmd)
     with pushd(program_path):
         debug(program_path)
         env = DEFAULT_ENV.copy()
@@ -157,10 +159,10 @@ def run_baseline_test(cmd, prep_cmds, env, app_name, run_index, result_path, cle
     sh.check_call([cleanup_cmd], env=env)
      
 def main():
-    app_name = sys.argv[1]
-    test_name = sys.argv[2]
-    trial_number = int(sys.argv[3]) if len(sys.argv) > 3 else 0
-    run_tests(app_name, test_name, trial_number)
+    app_name = sys.argv[2]
+    test_name = sys.argv[3]
+    trial_number = int(sys.argv[4]) if len(sys.argv) > 4 else 0
+    run_tests(folder_name, app_name, test_name, trial_number)
 
 if __name__ == '__main__':
     if len(sys.argv) == 0:
