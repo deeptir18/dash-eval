@@ -4,7 +4,7 @@ RESULTS=$1
 TRIAL=$2
 pushd "$CLIENT_MOUNT/git/dash/chromium"
 # 1: apply a patch for this commit
-for i in $(seq 19 -1 18)
+for i in $(seq 20 -1 1)
 do
     statustime="/usr/bin/time --output=${RESULTS}/${TRIAL}-status-${i}.log --verbose"
     addtime="/usr/bin/time --output=${RESULTS}/${TRIAL}-add-${i}.log --verbose"

@@ -43,7 +43,7 @@ def run_tests(folder_name, test_name, app_name, run_index):
     result_path = prepare_folders(folder_name, app_name, test_name)
     program_path = os.path.join(ROOT_DIR, 'apps', app_name, test_name)
     if "git" in app_name:
-        run_git_test(test_name, app_name, str(run_index))
+        run_git_test(folder_name, test_name, app_name, str(run_index))
         return
     prep_cmds = ['./prep.sh']
     if os.path.exists(os.path.join(program_path, "prep-2.sh")):
