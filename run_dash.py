@@ -3,8 +3,14 @@ import multiprocessing
 import os
 from run_tests import debug
 
-def dash_server(logfolder, logname):
-    cxn = Connection(host = os.environ["SERVER"],
+def dash_server(logfolder, logname, server = None, server_mount = None, tmpfile = None):
+    if server is None:
+        server = os.environ["SERVER"]
+    if server_mount is None:
+        server_mount = os.environ["SERVER_MOUNT"]
+    if tmpfile is None:
+        tmpfile = os.environ["SERVER_TMP"]
+    cxn = Connection(host = server,
                     user = os.environ["USERNAME"],
                     port = 22,
                     connect_kwargs = {"key_filename": os.environ["KEY"]})
@@ -13,9 +19,9 @@ def dash_server(logfolder, logname):
     cxn.run(setup_cmd)
     logpath = "{logfolder}/{logname}".format(logfolder = logfolder, logname = logname)
     cmd = "{binary} --folder {folder} --ip_address {client} --tmpfile {tmp} > {logpath} 2>&1".format(binary = os.environ["SERVER_BINARY"],
-                folder = os.environ["SERVER_MOUNT"],
+                folder = server_mount,
                 client = os.environ["CLIENT"],
-                tmp = os.environ["SERVER_TMP"],
+                tmp = tmpfile,
                 logpath = logpath)
     debug("Starting Dash Server: {}".format(cmd))
     try:
@@ -24,8 +30,11 @@ def dash_server(logfolder, logname):
     except:
         pass
 
-def kill_dash_server():
-    cxn = Connection(host = os.environ["SERVER"],
+def kill_dash_server(server = None):
+    if server is None:
+        server = os.environ["SERVER"]
+
+    cxn = Connection(host = server,
                     user = os.environ["USERNAME"],
                     port = 22,
                     connect_kwargs = {"key_filename": os.environ["KEY"]})
@@ -38,7 +47,7 @@ def kill_dash_server():
         debug("Failed to kill dash server")
         return False
 
-def start_dash_server(logfolder, logname):
+def start_dash_server(logfolder, logname, server = None, server_mount = None, tmpfile = None):
     # should inherit environment vars set in parent
-    server_proc = multiprocessing.Process(target = dash_server, args = (logfolder, logname))
+    server_proc = multiprocessing.Process(target = dash_server, args = (logfolder, logname, server, server_mount, tmpfile))
     return server_proc

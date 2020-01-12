@@ -1,2 +1,2 @@
 #!/bin/bash
-sudo mount ${SERVER}:${SERVER_MOUNT} $CLIENT_MOUNT
+sudo mount -t nfs ${SERVER}:${SERVER_MOUNT} $CLIENT_MOUNT
