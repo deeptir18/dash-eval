@@ -14,7 +14,7 @@ from run_tests import debug, prepare_folders, usage, pushd
 DEFAULT_ENV = os.environ.copy()
 ROOT_DIR = os.path.abspath(os.path.dirname(__file__))
 ## this is the set of servers for pancham
-SERVERS = ["34.82.233.207", "34.83.249.0", "35.233.167.51", "34.82.215.221", "104.196.232.247"]
+SERVERS = ["34.83.249.0", "34.82.198.223", "34.82.215.221", "35.233.167.51", "35.197.82.68"]
 SERVER_MNT_PARENTS = ["/mnt/disks/ssd1", "/mnt/disks/ssd1", "/mnt/disks/ssd", "/mnt/disks/ssd1", "/mnt/disks/ssd1"]
 ## this is the set of the servers for the cloud -> cloud tests
 def run_tests(folder_name, app_name, test_name, run_index):
