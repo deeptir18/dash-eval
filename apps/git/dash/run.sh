@@ -17,12 +17,12 @@ do
     ${patchtime} patch -p1 <"${patchfile}"
 
     ## run the status
-    ${statustime} $CLIENT_BINARY ${DASH_EVAL}/apps/git/dash/status.sh --mount_file ${DASH_EVAL}/git.mount --annotations_file $DASH_CLIENT_PATH/config/eval_annotations.txt --pwd "${CLIENT_MOUNT}/git/dash/chromium" --tmpfile $CLIENT_TMP
+    ${statustime} $CLIENT_BINARY ${DASH_EVAL}/apps/git/dash/status.sh --mount_file ${DASH_EVAL}/sample.config --annotations_file $DASH_CLIENT_PATH/config/eval_annotations.txt --pwd "${CLIENT_MOUNT}/git/dash/chromium" --tmpfile $CLIENT_TMP
 
     ## run the add
-    ${addtime} $CLIENT_BINARY ${DASH_EVAL}/apps/git/dash/add.sh --mount_file ${DASH_EVAL}/git.mount --annotations_file ${DASH_CLIENT_PATH}/config/eval_annotations.txt --pwd "${CLIENT_MOUNT}/git/dash/chromium" --tmpfile $CLIENT_TMP
+    ${addtime} $CLIENT_BINARY ${DASH_EVAL}/apps/git/dash/add.sh --mount_file ${DASH_EVAL}/sample.config --annotations_file ${DASH_CLIENT_PATH}/config/eval_annotations.txt --pwd "${CLIENT_MOUNT}/git/dash/chromium" --tmpfile $CLIENT_TMP
 
     ## run the commit
-    ${committime} $CLIENT_BINARY $commitfile --mount_file ${DASH_EVAL}/git.mount --annotations_file ${DASH_CLIENT_PATH}/config/eval_annotations.txt --pwd "${CLIENT_MOUNT}/git/dash/chromium" --tmpfile $CLIENT_TMP
+    ${committime} $CLIENT_BINARY $commitfile --mount_file ${DASH_EVAL}/sample.config --annotations_file ${DASH_CLIENT_PATH}/config/eval_annotations.txt --pwd "${CLIENT_MOUNT}/git/dash/chromium" --tmpfile $CLIENT_TMP
 done
 popd

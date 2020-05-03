@@ -4,6 +4,3 @@ cat mount0/logs/*.csv mount1/logs/*.csv mount2/logs/*.csv mount3/logs/*.csv moun
 #cat mount2/logs/*.csv | grep '128.151.150' > "${OUTPUTFILE}2"
 #cat mount3/logs/*.csv | grep '128.151.150' > "${OUTPUTFILE}3"
 #cat mount4/logs/*.csv | grep '128.151.150' > "${OUTPUTFILE}4"
-
-
-
