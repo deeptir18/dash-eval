@@ -79,6 +79,10 @@ def run_tests(folder_name, test_name, app_name, run_index):
         else:
             run_baseline_test([run_cmd], prep_cmds, env, app_name, run_index, result_path, cleanup_cmd)
             # todo: also run the run separate command
+    # run the cleanup: unmount
+    if os.path.ismount(os.environ["CLIENT_MOUNT"]):
+        sh.run(unmount_cmd)
+        
 
 """
 Specifically for git, the setup for the tests is a little different, so have a separate function for this
@@ -109,6 +113,9 @@ def run_git_test(folder_name, test_name, app_name, run_index):
         else:
             run_baseline_test(run_cmds, prep_cmds, env, app_name, run_index, result_path, cleanup_cmd)
     print(run_cmds)
+    # cleanup: unmount
+    if os.path.ismount(os.environ["CLIENT_MOUNT"]):
+        sh.run(unmount_cmd)
 
 def run_dash_test(cmds, prep_cmds, env, app_name, run_index, result_path, cleanup_cmd):
         ## run the PREP on the client
