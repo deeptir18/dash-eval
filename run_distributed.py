@@ -14,8 +14,8 @@ from run_tests import debug, prepare_folders, usage, pushd
 DEFAULT_ENV = os.environ.copy()
 ROOT_DIR = os.path.abspath(os.path.dirname(__file__))
 ## this is the set of servers for pancham
-SERVERS = ["34.83.249.0", "34.82.198.223", "34.82.215.221", "35.233.167.51", "35.197.82.68"]
-SERVER_MNT_PARENTS = ["/mnt/disks/ssd1", "/mnt/disks/ssd1", "/mnt/disks/ssd", "/mnt/disks/ssd1", "/mnt/disks/ssd1"]
+SERVERS = ["34.82.47.137", "34.105.7.124", "34.82.89.19", "35.227.152.201", "34.105.97.99"]
+SERVER_MNT_PARENTS = ["/mnt/disks/ssd", "/mnt/disks/ssd1", "/mnt/disks/ssd", "/mnt/disks/ssd", "/mnt/disks/ssd"]
 ## this is the set of the servers for the cloud -> cloud tests
 def run_tests(folder_name, app_name, test_name, run_index):
     result_path = prepare_folders(folder_name, test_name, app_name)
@@ -60,6 +60,16 @@ def run_tests(folder_name, app_name, test_name, run_index):
                 cleanup_cmd = ["./cleanup.sh", server, server_mount]
                 sh.check_call(cleanup_cmd, env=env)
             
+    for i in range(len(SERVERS)):
+        server = SERVERS[i]
+        server_mount = "{}/{}".format(SERVER_MNT_PARENTS[i], os.environ["SERVER_FOLDER"])
+        debug("Server folder: {}".format(server_mount))
+        ## need to mount and unmount all the folders 
+        env = DEFAULT_ENV.copy() # don't store server locations here
+        ## need to run the prep for this server
+        if os.path.ismount("{}{}".format(os.environ["CLIENT_MNT_BASE"], i)):
+            sh.run(["./unmount-args.sh", "{}{}".format(os.environ["CLIENT_MNT_BASE"], i)])
+        debug("Unmounted {}, mount # {}".format(server, i))
 def run_dash_test(env, test_name, run_index, result_path):
     ## start 5 dash servers on different machines
     success = False

@@ -1,6 +1,6 @@
 #!/bin/bash
 source /home/deeptir/research/fs_project/results/winter_results/configs/config.sh
-export FOLDER="/home/deeptir/research/fs_project/results/testing/may3night_pancham_sync"
+export FOLDER="/home/deeptir/research/fs_project/results/testing/may4day_pancham_async"
 python3 run_tests.py $FOLDER dash ray_tracing 0
 python3 run_tests.py $FOLDER bash ray_tracing 0
 python3 run_tests.py $FOLDER dash images 0
@@ -32,3 +32,7 @@ python3 run_tests.py $FOLDER dash scans 3
 python3 run_tests.py $FOLDER bash scans 3
 python3 run_tests.py $FOLDER dash scans 4
 python3 run_tests.py $FOLDER bash scans 4
+
+# SCP all the logs back
+echo "Done with all tests, transferring server logs back."
+scp -r -i $KEY $USERNAME@$SERVER:$SERVER_LOGS $FOLDER/
