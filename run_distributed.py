@@ -135,7 +135,7 @@ def main():
     folder_name = sys.argv[1]
     app_name = sys.argv[2]
     test_name = sys.argv[3]
-    assert(test_name == "distributed")
+    assert("distributed" in test_name or "comm" in test_name)
     trial_number = int(sys.argv[4]) if len(sys.argv) > 4 else 0
     run_tests(folder_name, app_name, test_name, trial_number)
 
